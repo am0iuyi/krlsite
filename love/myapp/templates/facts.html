@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Милые факты - Для моей любимой</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6f0ff 0%, #c9e2ff 100%);
+            color: #4a5568;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(143, 186, 255, 0.25);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3b82f6;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #5a93d9;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .heart-divider {
+            font-size: 28px;
+            color: #ff6b6b;
+            margin: 25px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .facts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .fact-card {
+            background: linear-gradient(135deg, #a7c6ff 0%, #c3d9ff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(143, 186, 255, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(143, 186, 255, 0.4);
+        }
+
+        .fact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+            z-index: 1;
+        }
+
+        .fact-icon {
+            width: 60px;
+            height: 60px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-right: 20px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .fact-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .fact-title {
+            font-size: 1.3rem;
+            color: #3b82f6;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .fact-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .counter-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #5a93d9 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .counter-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path fill="rgba(255,255,255,0.1)" d="M10,3.3C9.5,1.6,8,0.4,6.3,0.4c-2,0-3.6,1.6-3.6,3.6c0,0.9,0.3,1.7,0.8,2.3c0,0,0,0,0,0l4.4,5.1l4.4-5.1c0,0,0,0,0,0c0.5-0.6,0.8-1.4,0.8-2.3c0-2-1.6-3.6-3.6-3.6C12,0.4,10.5,1.6,10,3.3z"/></pattern></defs><rect fill="url(%23hearts)" x="0" y="0" width="100" height="100"/></svg>');
+            animation: float 30s infinite linear;
+            z-index: 1;
+        }
+
+        .counter-section h2 {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .counters {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .counter {
+            padding: 20px;
+            min-width: 180px;
+        }
+
+        .counter-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .counter-text {
+            font-size: 1.1rem;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 107, 107, 0.5);
+            animation: floatHeart 15s infinite linear;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #5a93d9;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #a7c6ff 0%, #c3d9ff 100%);
+            color: #3b82f6;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(143, 186, 255, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(143, 186, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .fact-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .fact-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .counters {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .animate {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        .delay-7 { animation-delay: 0.7s; }
+        .delay-8 { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <header>
+            <h1>Онли факты ниже</h1>
+<!--            <p class="subtitle">Небольшие детали, которые делают наши отношения особенными</p>-->
+<!--            <div class="heart-divider">❤️ ❤️ ❤️</div>-->
+        </header>
+
+        <div class="facts-container">
+            <div class="fact-card animate">
+                <div class="fact-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="fact-content">
+                    <h3 class="fact-title">Любовь</h3>
+                    <p class="fact-text">Не знаю что ты там думаешь, но любить ты умеешь, показываешь ты это очень сильно и ясно</p>
+
+                </div>
+            </div>
+
+            <div class="fact-card animate delay-1">
+                <div class="fact-icon">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <div class="fact-content">
+                    <h3 class="fact-title">Улыбка</h3>
+                    <p class="fact-text">Твоя улыбка сможет растопить даже лед,улыбайся чаще кот, а я тебе с этим помогу)</p>
+                </div>
+            </div>
+
+
+            <div class="fact-card animate delay-4">
+                <div class="fact-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="fact-content">
+                    <h3 class="fact-title">Глаза</h3>
+                    <p class="fact-text">У тебя безумно красивые и выразительные глаза, каждый раз в них тону.</p>
+                </div>
+            </div>
+
+            <div class="fact-card animate delay-5">
+                <div class="fact-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="fact-content">
+                    <h3 class="fact-title">Забота</h3>
+                    <p class="fact-text">Даже когда ты сама устала, ты всегда спросишь как мое самочувствие и дела. Я это очень ценю, но о себе тоже думай пжпж.</p>
+                </div>
+            </div>
+
+            <div class="fact-card animate delay-6">
+                <div class="fact-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="fact-content">
+                    <h3 class="fact-title">Разговоры</h3>
+                    <p class="fact-text">Мне безумно нравится болтать с тобой, по теме или без, любой разговор с тобой.</p>
+                </div>
+            </div>
+
+            <div class="fact-card animate delay-7">
+                <div class="fact-icon">
+                    <i class="fas fa-laugh"></i>
+                </div>
+                <div class="fact-content">
+                    <h3 class="fact-title">Смех</h3>
+                    <p class="fact-text">Мы можем смеяться над самыми глупыми шутками, и мне это безумно нравится. С тобой я чувствую себя собой.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="counter-section">
+            <h2>Наша статистика</h2>
+            <div class="counters">
+                <div class="counter">
+                    <div class="counter-number" id="days-together">0</div>
+                    <div class="counter-text">дней вместе</div>
+                </div>
+                <div class="counter">
+                    <div class="counter-number">∞</div>
+                    <div class="counter-text">поцелуев</div>
+                </div>
+                <div class="counter">
+                    <div class="counter-number">∞</div>
+                    <div class="counter-text">объятий</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <a href="{% url 'home' %}" class="back-btn">Вернуться на главную</a>
+            <p>Создано с любовью специально для тебя</p>
+        </footer>
+    </div>
+
+    <script>
+        // Создаем плавающие сердечки
+        const heartsContainer = document.getElementById('hearts-container');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // Счетчик дней вместе (замените на вашу дату)
+        function updateDaysCounter() {
+            const startDate = new Date('2025-06-04'); // Замените на вашу дату
+            const currentDate = new Date();
+            const diffTime = Math.abs(currentDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            document.getElementById('days-together').textContent = diffDays;
+        }
+
+        // Анимация появления элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate');
+
+            animatedElements.forEach(element => {
+                element.style.opacity = 0;
+            });
+
+            setTimeout(function() {
+                animatedElements.forEach(element => {
+                    element.style.opacity = 1;
+                });
+            }, 100);
+
+            updateDaysCounter();
+        });
+
+
+    </script>
+</body>
+</html>

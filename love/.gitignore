@@ -1,0 +1,25 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+media/
+env/
+.env
+db.sqlite3
+
+# PyCharm
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtual environment
+venv/
+myenv/
+ENV/
+
+# Static files (они соберутся при деплое)
+staticfiles/

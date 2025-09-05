@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наш фотоальбом - Для моей любимой</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6f0ff 0%, #c9e2ff 100%);
+            color: #4a5568;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(143, 186, 255, 0.25);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3b82f6;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #5a93d9;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .heart-divider {
+            font-size: 28px;
+            color: #ff6b6b;
+            margin: 25px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .album-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .photo-card {
+            background: linear-gradient(135deg, #a7c6ff 0%, #c3d9ff 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(143, 186, 255, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 25px rgba(143, 186, 255, 0.4);
+        }
+
+        .photo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+            z-index: 1;
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-card:hover .photo-img {
+            transform: scale(1.1);
+        }
+
+        .photo-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .photo-card:hover .photo-info {
+            transform: translateY(0);
+        }
+
+        .photo-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .photo-date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .photo-description {
+            font-size: 1rem;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .photo-card:hover .photo-description {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 107, 107, 0.5);
+            animation: floatHeart 15s infinite linear;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .modal-close:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .memory-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #5a93d9 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path fill="rgba(255,255,255,0.1)" d="M10,3.3C9.5,1.6,8,0.4,6.3,0.4c-2,0-3.6,1.6-3.6,3.6c0,0.9,0.3,1.7,0.8,2.3c0,0,0,0,0,0l4.4,5.1l4.4-5.1c0,0,0,0,0,0c0.5-0.6,0.8-1.4,0.8-2.3c0-2-1.6-3.6-3.6-3.6C12,0.4,10.5,1.6,10,3.3z"/></pattern></defs><rect fill="url(%23hearts)" x="0" y="0" width="100" height="100"/></svg>');
+            animation: float 30s infinite linear;
+            z-index: 1;
+        }
+
+        .memory-section h2 {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .memory-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #5a93d9;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #a7c6ff 0%, #c3d9ff 100%);
+            color: #3b82f6;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(143, 186, 255, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(143, 186, 255, 0.5);
+        }
+
+        .instructions {
+            background: rgba(167, 198, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .instructions h3 {
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .album-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 15px;
+            }
+
+            .photo-card {
+                height: 220px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .photo-info {
+                padding: 10px;
+            }
+
+            .photo-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .animate {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <header>
+            <h1>Наш фотоальбом</h1>
+<!--            <p class="subtitle">Самые precious моменты нашего счастья</p>-->
+<!--            <div class="heart-divider">❤️ ❤️ ❤️</div>-->
+        </header>
+
+        <<div class="album-container">
+            <div class="photo-card animate">
+                <img src="photo1.jpg" alt="Наше первое свидание" class="photo-img">
+                <div class="photo-info">
+<!--                    <div class="photo-title">Наше первое свидание</div>-->
+<!--                    <div class="photo-date">12.05.2022</div>-->
+                    <div class="photo-description">Я помню, как ты улыбалась</div>
+                </div>
+            </div>
+
+            <div class="photo-card animate delay-1">
+                <img src="photo2.jpg" alt="Отдых на море" class="photo-img">
+                <div class="photo-info">
+<!--                    <div class="photo-title">Отдых на море</div>-->
+<!--                    <div class="photo-date">23.07.2022</div>-->
+                    <div class="photo-description">А тут мы типо смешнявки</div>
+                </div>
+            </div>
+
+            <div class="photo-card animate delay-2">
+                <img src="photo3.jpg" alt="Поход в горы" class="photo-img">
+                <div class="photo-info">
+<!--                    <div class="photo-title">Поход в горы</div>-->
+<!--                    <div class="photo-date">15.08.2022</div>-->
+                    <div class="photo-description">Знать бы че еще писать чтоб не кринге</div>
+                </div>
+            </div>
+
+            <div class="photo-card animate delay-3">
+                <img src="photo4.jpg" alt="Твой день рождения" class="photo-img">
+                <div class="photo-info">
+<!--                    <div class="photo-title">Твой день рождения</div>-->
+<!--                    <div class="photo-date">03.10.2022</div>-->
+                    <div class="photo-description">Безумно нравится эта фотка, а еще ты кстати</div>
+                </div>
+            </div>
+
+            <div class="photo-card animate delay-4">
+                <img src="photo5.jpg" alt="Первая зима вместе" class="photo-img">
+                <div class="photo-info">
+<!--                    <div class="photo-title">Первая зима вместе</div>-->
+<!--                    <div class="photo-date">20.12.2022</div>-->
+                    <div class="photo-description">А здесь просто ты красиви</div>
+                </div>
+            </div>
+
+            <div class="photo-card animate delay-5">
+                <img src="photo6.jpg" alt="Новый год вместе" class="photo-img">
+                <div class="photo-info">
+<!--                    <div class="photo-title">Новый год вместе</div>-->
+<!--                    <div class="photo-date">31.12.2022</div>-->
+                    <div class="photo-description">А тут мы угарни</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="memory-section">
+            <h2>Надо фоткаться чаще, а то еле как 5 фоток нашел</h2>
+            <p>люблю вас женщина</p>
+        </div>
+
+        <footer>
+            <a href="{% url 'home' %}" class="back-btn">Вернуться на главную</a>
+            <p>Создано с любовью специально для тебя</p>
+        </footer>
+    </div>
+
+    <div class="modal" id="photo-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <img class="modal-img" id="modal-img" src="" alt="">
+            <div class="modal-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        // Создаем плавающие сердечки
+        const heartsContainer = document.getElementById('hearts-container');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // Создаем плавающие сердечки
+        const heartsContainer = document.getElementById('hearts-container');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // Модальное окно для фото
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalCaption = document.getElementById('modal-caption');
+        const closeModal = document.getElementById('modal-close');
+
+        document.querySelectorAll('.photo-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const img = this.querySelector('.photo-img');
+                const title = this.querySelector('.photo-title').textContent;
+                const date = this.querySelector('.photo-date').textContent;
+                const description = this.querySelector('.photo-description').textContent;
+
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                modalCaption.textContent = `${title} - ${date}: ${description}`;
+                modal.style.display = 'flex';
+            });
+        });
+
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Обработчик для кнопки "Назад"
+        document.querySelector('.back-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('В реальном сайте здесь будет переход на главную страницу');
+        });
+
+        // Анимация появления элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate');
+
+            animatedElements.forEach(element => {
+                element.style.opacity = 0;
+            });
+
+            setTimeout(function() {
+                animatedElements.forEach(element => {
+                    element.style.opacity = 1;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+

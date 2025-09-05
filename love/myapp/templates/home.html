@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для моей любимой</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6f0ff 0%, #c9e2ff 100%);
+            color: #4a5568;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(143, 186, 255, 0.25);
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3b82f6;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #5a93d9;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .heart-divider {
+            font-size: 32px;
+            color: #ff6b6b;
+            margin: 25px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .nav-btn {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #a7c6ff 0%, #c3d9ff 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(143, 186, 255, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+            z-index: 1;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(143, 186, 255, 0.4);
+        }
+
+        .nav-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-text {
+            font-size: 1rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            padding: 0 10px;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 107, 107, 0.5);
+            animation: floatHeart 15s infinite linear;
+        }
+
+        .message {
+            background: linear-gradient(135deg, #3b82f6 0%, #5a93d9 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path fill="rgba(255,255,255,0.1)" d="M10,3.3C9.5,1.6,8,0.4,6.3,0.4c-2,0-3.6,1.6-3.6,3.6c0,0.9,0.3,1.7,0.8,2.3c0,0,0,0,0,0l4.4,5.1l4.4-5.1c0,0,0,0,0,0c0.5-0.6,0.8-1.4,0.8-2.3c0-2-1.6-3.6-3.6-3.6C12,0.4,10.5,1.6,10,3.3z"/></pattern></defs><rect fill="url(%23hearts)" x="0" y="0" width="100" height="100"/></svg>');
+            animation: float 30s infinite linear;
+            z-index: 1;
+        }
+
+        .message p {
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #5a93d9;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .navigation {
+                gap: 20px;
+            }
+
+            .nav-btn {
+                width: 130px;
+                height: 130px;
+            }
+
+            .nav-icon {
+                font-size: 32px;
+            }
+
+            .nav-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navigation {
+                gap: 15px;
+            }
+
+            .nav-btn {
+                width: 110px;
+                height: 110px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .nav-icon {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+
+            .nav-text {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .animate {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts-container"></div>
+
+<!--    <div class="container">-->
+<!--        <header>-->
+<!--            <h1>Для моей любимой</h1>-->
+<!--            <p class="subtitle">Этот сайт создан специально для тебя</p>-->
+<!--            <div class="heart-divider">❤</div>-->
+<!--        </header>-->
+
+        <div class="navigation">
+            <a href="{% url 'game' %}" class="nav-btn animate" id="game-btn">
+                <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="nav-text">Игра</div>
+            </a>
+
+            <a href="{% url 'thoto' %}" class="nav-btn animate delay-1" id="photos-btn">
+                <div class="nav-icon"><i class="fas fa-camera"></i></div>
+                <div class="nav-text">Фото</div>
+            </a>
+
+            <a href="{% url 'facts' %}" class="nav-btn animate delay-2" id="facts-btn">
+                <div class="nav-icon"><i class="fas fa-heart"></i></div>
+                <div class="nav-text">Факты</div>
+            </a>
+
+            <a href="{% url 'history' %}" class="nav-btn animate delay-3" id="history-btn">
+                <div class="nav-icon"><i class="fas fa-book-open"></i></div>
+                <div class="nav-text">Предыстория</div>
+            </a>
+
+            <a href="{% url 'love' %}" class="nav-btn animate delay-4" id="love-btn">
+                <div class="nav-icon"><i class="fas fa-kiss-wink-heart"></i></div>
+                <div class="nav-text">Люблю тебя</div>
+            </a>
+        </div>
+
+        <div class="message animate delay-5">
+            <p>Выбери раздел, который хочешь посмотреть, и открой для себя немного больше о моих чувствах к тебе</p>
+        </div>
+
+        <footer>
+            <p>Создано с любовью специально для тебя</p>
+        </footer>
+    </div>
+
+    <script>
+        // Создаем плавающие сердечки
+        const heartsContainer = document.getElementById('hearts-container');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+<!--        // Имитация работы кнопок (в реальном проекте замените на реальные ссылки)-->
+<!--        document.querySelectorAll('.nav-btn').forEach(btn => {-->
+<!--            btn.addEventListener('click', function(e) {-->
+<!--                e.preventDefault();-->
+<!--                const sectionName = this.querySelector('.nav-text').textContent;-->
+<!--                alert(`Раздел "${sectionName}" откроется здесь! В реальном сайте здесь будет переход на другую страницу.`);-->
+<!--            });-->
+<!--        });-->
+
+        // Анимация появления элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate');
+
+            animatedElements.forEach(element => {
+                element.style.opacity = 0;
+            });
+
+            setTimeout(function() {
+                animatedElements.forEach(element => {
+                    element.style.opacity = 1;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

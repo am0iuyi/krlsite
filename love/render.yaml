@@ -1,0 +1,18 @@
+# render.yaml
+
+services:
+  - type: web
+    name: myapp # Замените на имя вашего приложения
+    env: python
+    plan: free # Бесплатный план
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn love.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true # Render сам сгенерирует безопасный ключ
+      - key: PYTHON_VERSION
+        value: 3.12.5 # Укажите вашу версию Python
+    disk:
+      name: django-data
+      mountPath: /opt/render/project/src/staticfiles
+      sizeGB: 1
