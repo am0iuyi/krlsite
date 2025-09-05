@@ -5,7 +5,7 @@ services:
     name: myapp # Замените на имя вашего приложения
     env: python
     plan: free # Бесплатный план
-    buildCommand: build.bat
+    buildCommand: "./build.sh"
     startCommand: "gunicorn love.wsgi:application"
     envVars:
       - key: SECRET_KEY
