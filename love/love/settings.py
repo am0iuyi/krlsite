@@ -27,7 +27,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-#yskz-hmc9e_@
 DEBUG = 'RENDER' not in os.environ # Будет True только если мы НЕ на Render
 
 # settings.py
-ALLOWED_HOSTS = ['*']  # Для быстрой демонстрации. Позже нужно будет заменить на домен туннеля.
+ALLOWED_HOSTS = [
+    'krlsite-8.onrender.com',  # ← Ваш домен
+    'localhost',
+    '127.0.0.1',
+]  # Для быстрой демонстрации. Позже нужно будет заменить на домен туннеля.
 
 
 # Application definition
